@@ -7,7 +7,7 @@
     
     <!-- Meta Tags cho Cloudflare SEO -->
     <meta name="description" content="Bài thu hoạch tham quan hướng nghiệp tại Cao đẳng Sonadezi - Nguyễn Anh Minh Lớp 9/2">
-    <meta name="robots" content="noindex, nofollow"> <!-- Ngăn bot tìm kiếm index code của bạn -->
+    <meta name="robots" content="noindex, nofollow">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -137,7 +137,7 @@
         .image-container img {
             width: 100%;
             display: block;
-            pointer-events: none; /* Ngăn chặn kéo thả ảnh */
+            pointer-events: none;
             -webkit-user-drag: none;
             transition: transform 0.8s ease;
         }
@@ -217,11 +217,11 @@
 
             <!-- PHẦN 1 -->
             <section class="glass-card p-8 md:p-12" data-aos="fade-up">
-                <h2 class="text-2xl font-black text-white mb-8 uppercase title-underline italic">1. Dấu ấn tại Cao đẳng Sonadezi</h2>
+                <h2 class="text-2xl font-black text-white mb-8 uppercase title-underline italic">1.Ấn tượng của em tại Cao đẳng Sonadezi</h2>
                 <div class="grid lg:grid-cols-2 gap-10 items-start">
                     <div class="text-slate-200 text-base leading-relaxed text-justify space-y-5 font-light">
                         <p>Lần đầu tiên bước chân vào khuôn viên trường, em bị ấn tượng bởi sự quy mô và tính kỷ luật toát ra từ mọi ngóc ngách. Không giống như những ngôi trường phổ thông, Sonadezi mang dáng dấp của một môi trường chuyên nghiệp nơi sự sáng tạo được đặt trong khuôn khổ của sự chính xác.</p>
-                        <p>Khu vực xưởng thực hành với những thiết bị hiện đại không chỉ là nơi học tập mà còn là nơi truyền cảm hứng mạnh mẽ về tinh thần lao động. Đặc biệt, tinh thần thể thao tại khu bóng bàn cho em thấy một góc nhìn khác về sinh viên: năng động, khỏe mạnh và luôn tràn đầy năng lượng tích cực.</p>
+                        <p>Khu vực xưởng thực hành với những thiết bị hiện đại không chỉ là nơi học tập mà còn là nơi truyền cảm hứng mạnh mẽ về tinh thần lao động. Đặc biệt, tinh thần thể thao cho em thấy một góc nhìn khác về học sinh,sinh viên: năng động, khỏe mạnh và luôn tràn đầy năng lượng tích cực.</p>
                         <p>Chính sự kết hợp hài hòa này đã tạo nên một dấu ấn khó phai, khiến em nhận ra rằng môi trường học tập lý tưởng không chỉ nằm ở sách vở mà còn nằm ở sự trải nghiệm không gian sống động.</p>
                     </div>
                     <div class="image-wrapper">
@@ -318,53 +318,53 @@
         </main>
 
         <footer class="py-16 text-center border-t border-white/10">
-            <p class="text-blue-300 font-bold tracking-[0.5em] uppercase mb-4 text-[10px]">Nguyễn Anh Minh</p>
-            <p class="text-[9px] text-slate-500 tracking-[0.3em] uppercase opacity-70 italic">Final Project • Grade 9 • 2025 - 2026</p>
+            <p class="text-blue-300 font-bold tracking-[0.5em] uppercase mb-4 text-[10px]">©2025-2026 GRADE 9</p>
+            <p class="text-[9px] text-slate-500 tracking-[0.3em] uppercase opacity-70 italic">Nguyễn Anh Minh • Lớp 9/2</p>
         </footer>
     </div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // BẢO MẬT: CHẶN PHÍM TẮT XEM CODE NÂNG CAO
-        document.addEventListener('keydown', function(e) {
-            // F12
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+I (DevTools)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+U (Source Code)
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+S (Save Page)
-            if (e.ctrlKey && e.keyCode === 83) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+C (Inspect)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
-                e.preventDefault();
-                return false;
-            }
-        });
+        // BẢO MẬT CẤP CAO: CHẶN DEVTOOLS & PHÍM TẮT
+        (function() {
+            // Chặn chuột phải toàn diện
+            document.addEventListener('contextmenu', e => e.preventDefault());
+
+            // Chặn phím tắt
+            document.addEventListener('keydown', function(e) {
+                if (
+                    e.keyCode === 123 || // F12
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+                    (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+                    (e.ctrlKey && e.keyCode === 83)    // Ctrl+S
+                ) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // ANTI-DEVTOOLS: Debugger Loop
+            // Nếu người dùng mở DevTools, debugger sẽ dừng mã lại liên tục
+            setInterval(function() {
+                const startTime = performance.now();
+                debugger;
+                const endTime = performance.now();
+                if (endTime - startTime > 100) {
+                    // Phát hiện DevTools đang mở qua độ trễ của debugger
+                    window.location.reload();
+                }
+            }, 1000);
+
+            // Xóa console liên tục
+            setInterval(() => {
+                console.clear();
+            }, 100);
+        })();
 
         // CHẶN DRAG ẢNH
         document.addEventListener('dragstart', function(e) {
-            if (e.target.nodeName === 'IMG') {
-                e.preventDefault();
-            }
+            if (e.target.nodeName === 'IMG') e.preventDefault();
         });
 
         let hasStarted = false;
@@ -391,7 +391,7 @@
                         clearInterval(interval);
                         finishLoading();
                     } else {
-                        width += Math.random() * 8; // Tốc độ tải nhanh hơn một chút cho web
+                        width += Math.random() * 8;
                         if(width > 100) width = 100;
                         bar.style.width = width + '%';
                         percentText.innerText = Math.floor(width) + '%';
