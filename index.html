@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BÀI THU HOẠCH CUỐI KÌ 2 - Nguyễn Anh Minh</title>
+    
+    <!-- Meta Tags cho Cloudflare SEO -->
+    <meta name="description" content="Bài thu hoạch tham quan hướng nghiệp tại Cao đẳng Sonadezi - Nguyễn Anh Minh Lớp 9/2">
+    <meta name="robots" content="noindex, nofollow"> <!-- Ngăn bot tìm kiếm index code của bạn -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { 
+            --primary: #1e3a8a; 
+            --secondary: #3b82f6; 
+            --bg-dark: #020617;
+        }
+
+        /* BẢO MẬT: CHỐNG BÔI ĐEN & TƯƠNG TÁC */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+        }
+
+        html, body { 
+            margin: 0; padding: 0;
+            background-color: var(--bg-dark);
+            color: #f1f5f9;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 1. MÀN HÌNH CLICK TO ENTER */
+        #entry-screen {
+            position: fixed; inset: 0; z-index: 20000;
+            background: #000; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: opacity 0.8s ease;
+        }
+        .click-hint {
+            color: #94a3b8; font-weight: 400; letter-spacing: 0.6em;
+            text-transform: uppercase; font-size: 0.85rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); color: #fff; } }
+
+        /* 2. MÀN HÌNH LOADING */
+        #loading-screen {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #000; display: none; align-items: center; justify-content: center;
+            flex-direction: column; transition: opacity 0.8s ease;
+        }
+        .progress-container {
+            width: 250px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transition: width 0.1s linear;
+            position: relative;
+        }
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+        /* BACKGROUND */
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e3a8a 0%, #020617 100%);
+            z-index: -2;
+        }
+        .stars {
+            position: fixed; width: 100%; height: 100%; z-index: -1;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3;
+        }
+
+        /* MAIN CONTENT */
+        #main-content {
+            opacity: 0; display: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2rem;
+            margin-bottom: 4rem;
+            transition: all 0.5s ease;
+        }
+        
+        .title-underline::after { 
+            content: ''; display: block; width: 60px; height: 3px; 
+            background: linear-gradient(to right, #3b82f6, transparent); 
+            margin-top: 15px; border-radius: 10px; 
+        }
+
+        /* Hình ảnh */
+        .image-wrapper {
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .image-container { 
+            border-radius: 1.5rem; overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.05);
+            transform: translateZ(0);
+        }
+        .image-wrapper:hover {
+            transform: translateY(-12px) scale(1.03);
+        }
+        .image-wrapper:hover .image-container {
+            box-shadow: 0 40px 80px -15px rgba(59, 130, 246, 0.4);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        .image-container img {
+            width: 100%;
+            display: block;
+            pointer-events: none; /* Ngăn chặn kéo thả ảnh */
+            -webkit-user-drag: none;
+            transition: transform 0.8s ease;
+        }
+        .image-wrapper:hover img {
+            transform: scale(1.08);
+        }
+
+        .image-caption {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #60a5fa;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .career-tag {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem; border-radius: 1.2rem;
+            transition: all 0.3s;
+        }
+        .career-tag:hover { 
+            background: rgba(59, 130, 246, 0.08); 
+            border-color: var(--secondary);
+            transform: translateY(-5px);
+        }
+
+        .step-num {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 12px; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1rem;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 10px; }
+    </style>
+</head>
+<body onclick="startJourney()" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" oncopy="return false" oncut="return false">
+
+    <div class="bg-glow"></div>
+    <div class="stars"></div>
+
+    <!-- Entry Screen -->
+    <div id="entry-screen">
+        <div class="text-center">
+            <p class="click-hint">Click anywhere to enter</p>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="progress-container">
+            <div id="bar" class="progress-bar"></div>
+        </div>
+        <p id="percent" class="text-[10px] tracking-[0.8em] text-blue-300 uppercase font-bold italic">0%</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <header class="pt-24 pb-16 px-6 text-center">
+            <div data-aos="fade-down">
+                <span class="px-4 py-1.5 bg-blue-500/10 rounded-full text-blue-400 font-bold text-[9px] tracking-widest uppercase mb-6 border border-blue-400/20 inline-block italic">Hành trình trải nghiệm</span>
+                <h1 class="text-4xl md:text-6xl font-black mb-6 uppercase italic leading-tight tracking-tighter">
+                    Bài Thu Hoạch<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-white">Học Kỳ II • 2025 - 2026</span>
+                </h1>
+                <p class="text-sm tracking-[0.4em] font-medium text-slate-300 uppercase">Nguyễn Anh Minh • Lớp 9/2</p>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto px-6">
+
+            <!-- PHẦN 1 -->
+            <section class="glass-card p-8 md:p-12" data-aos="fade-up">
+                <h2 class="text-2xl font-black text-white mb-8 uppercase title-underline italic">1. Dấu ấn tại Cao đẳng Sonadezi</h2>
+                <div class="grid lg:grid-cols-2 gap-10 items-start">
+                    <div class="text-slate-200 text-base leading-relaxed text-justify space-y-5 font-light">
+                        <p>Lần đầu tiên bước chân vào khuôn viên trường, em bị ấn tượng bởi sự quy mô và tính kỷ luật toát ra từ mọi ngóc ngách. Không giống như những ngôi trường phổ thông, Sonadezi mang dáng dấp của một môi trường chuyên nghiệp nơi sự sáng tạo được đặt trong khuôn khổ của sự chính xác.</p>
+                        <p>Khu vực xưởng thực hành với những thiết bị hiện đại không chỉ là nơi học tập mà còn là nơi truyền cảm hứng mạnh mẽ về tinh thần lao động. Đặc biệt, tinh thần thể thao tại khu bóng bàn cho em thấy một góc nhìn khác về sinh viên: năng động, khỏe mạnh và luôn tràn đầy năng lượng tích cực.</p>
+                        <p>Chính sự kết hợp hài hòa này đã tạo nên một dấu ấn khó phai, khiến em nhận ra rằng môi trường học tập lý tưởng không chỉ nằm ở sách vở mà còn nằm ở sự trải nghiệm không gian sống động.</p>
+                    </div>
+                    <div class="image-wrapper">
+                        <div class="image-container">
+                            <img src="https://i.postimg.cc/cJhtNtk6/z7741929847974-565a16d5f9aa9c7c38178f18723002e7.jpg" alt="[Cảnh quan trường]">
+                        </div>
+                        <p class="image-caption">Khuôn viên Cao đẳng Sonadezi</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHẦN 2 -->
+            <section class="glass-card p-8 md:p-12" data-aos="fade-up">
+                <h2 class="text-2xl font-black text-white mb-10 uppercase title-underline italic">2. Phân tích các nhóm ngành trọng điểm</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="career-tag">
+                        <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-tight">Kỹ thuật Điện Công Nghiệp ⚡</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed text-justify">Được quan sát các hệ thống vận hành phức tạp, em hiểu rằng đây là xương sống của nền kinh tế hiện đại. Ngành này không chỉ cần sức khỏe mà còn cần một bộ óc phân tích, xử lý tình huống nhanh nhạy và tính cẩn trọng tuyệt đối trong an toàn lao động.</p>
+                    </div>
+                    <div class="career-tag">
+                        <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-tight">Dịch vụ Bartender Chuyên nghiệp 🍸</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed text-justify">Nghệ thuật pha chế mở ra một thế giới đầy màu sắc. Nó đòi hỏi sự am hiểu sâu sắc về nguyên liệu, gu thẩm mỹ tinh tế và đặc biệt là kỹ năng giao tiếp lôi cuốn, biến mỗi ly thức uống trở thành một tác phẩm nghệ thuật phục vụ khách hàng.</p>
+                    </div>
+                    <div class="career-tag">
+                        <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-tight">Quản trị Khách sạn 5 Sao 🏨</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed text-justify">Sự chỉn chu trong từng chi tiết nhỏ nhất tại phòng mô phỏng làm em choáng ngợp. Đây là ngành dành cho những người yêu thích sự phục vụ, coi sự hài lòng của khách hàng là mục tiêu cao nhất và luôn giữ phong thái chuyên nghiệp, lịch thiệp.</p>
+                    </div>
+                    <div class="career-tag">
+                        <h3 class="text-white font-bold text-lg mb-3 uppercase tracking-tight">Truyền thông Đa phương tiện 📱</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed text-justify">Trong thời đại số, đây là ngành nắm giữ quyền năng thay đổi nhận thức cộng đồng. Sự kết hợp giữa công nghệ phần mềm và tư duy hình ảnh sáng tạo giúp truyền tải thông điệp một cách ấn tượng nhất tới mọi đối tượng khán giả.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHẦN 3 -->
+            <section class="glass-card p-8 md:p-12" data-aos="fade-up">
+                <h2 class="text-2xl font-black text-white mb-10 uppercase title-underline italic">3. Cảm hứng và Bài học từ Thực tế</h2>
+                <div class="space-y-10">
+                    <div class="bg-blue-900/10 p-8 rounded-2xl border border-blue-400/20 text-center italic shadow-inner">
+                        <p class="text-xl font-light text-blue-100 leading-relaxed">
+                            "Hành trình tham quan không chỉ là một chuyến đi ngoại khóa, nó là hồi chuông thức tỉnh về trách nhiệm đối với tương lai của bản thân em."
+                        </p>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-10">
+                        <div class="space-y-6 text-slate-200 text-sm leading-relaxed text-justify">
+                            <p>Em nhận thấy rằng khoảng cách giữa lý thuyết và thực tế là rất lớn. Những gì chúng em được nghe trên lớp chỉ là bề nổi, còn khi nhìn tận mắt quy trình làm việc, em mới thấy được sự vất vả nhưng cũng đầy tự hào của những người thợ, những chuyên gia lành nghề.</p>
+                            <p>Sự tâm huyết của các thầy cô tại Sonadezi khi hướng dẫn cho thấy họ không chỉ dạy chữ, mà đang truyền lửa nghề. Điều này thôi thúc em phải nhìn nhận lại việc học tập một cách nghiêm túc hơn, học không chỉ để thi mà để chuẩn bị hành trang bước ra thế giới rộng lớn.</p>
+                        </div>
+                        <div class="image-wrapper">
+                            <div class="image-container">
+                                <img src="https://i.postimg.cc/jSwDLdqn/z7741929871590-7b9e3050dc85509d1d42f7f3d84acc54.jpg" alt="[Cảm hứng học tập]">
+                            </div>
+                            <p class="image-caption">Trải nghiệm thực tế xưởng thực hành</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHẦN 4 -->
+            <section class="glass-card p-8 md:p-12" data-aos="fade-up">
+                <h2 class="text-2xl font-black text-white mb-10 uppercase title-underline italic">4. Lộ trình phát triển Bản thân</h2>
+                <div class="space-y-6">
+                    <div class="flex gap-6 items-start p-5 bg-white/5 rounded-2xl border border-white/10 transition-colors hover:bg-white/10">
+                        <div class="step-num shrink-0">01</div>
+                        <div>
+                            <h4 class="text-blue-300 font-bold text-base mb-2 uppercase">Giai đoạn Chinh phục ngắn hạn 🎯</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed text-justify">Tập trung tối đa thời gian cho việc ôn luyện 3 môn Toán, Ngữ Văn và Tiếng Anh để đảm bảo một suất vào lớp 10 trường công lập. Đây là tiền đề quan trọng nhất để em có tâm thế vững vàng bước vào bậc THPT.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start p-5 bg-white/5 rounded-2xl border border-white/10 transition-colors hover:bg-white/10">
+                        <div class="step-num shrink-0">02</div>
+                        <div>
+                            <h4 class="text-blue-300 font-bold text-base mb-2 uppercase">Giai đoạn Tích lũy kỹ năng 📚</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed text-justify">Trong 3 năm THPT, em sẽ không chỉ học văn hóa mà còn tự mày mò các kỹ năng tin học, ngoại ngữ giao tiếp và tham gia các hoạt động xã hội. Mục tiêu là trở thành một cá nhân toàn diện, sẵn sàng ứng biến với mọi thay đổi của xã hội.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start p-5 bg-white/5 rounded-2xl border border-white/10 transition-colors hover:bg-white/10">
+                        <div class="step-num shrink-0">03</div>
+                        <div>
+                            <h4 class="text-blue-300 font-bold text-base mb-2 uppercase">Giai đoạn Định hình Sự nghiệp 🚀</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed text-justify">Dựa trên thế mạnh về sự sáng tạo, em sẽ lựa chọn các ngành nghề có tính thực tiễn cao như Quản trị hoặc Truyền thông. Em sẽ ưu tiên chọn những ngôi trường có môi trường thực hành mạnh mẽ để nhanh chóng làm chủ công việc ngay khi ra trường.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start p-5 bg-white/5 rounded-2xl border border-white/10 transition-colors hover:bg-white/10">
+                        <div class="step-num shrink-0">04</div>
+                        <div>
+                            <h4 class="text-blue-300 font-bold text-base mb-2 uppercase">Giai đoạn Kiên định Mục tiêu 💎</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed text-justify">Luôn giữ vững tinh thần cầu tiến, không ngừng cập nhật các xu hướng công nghệ mới và xây dựng mạng lưới quan hệ chất lượng. Em tin rằng sự bền bỉ và thái độ tích cực sẽ là chìa khóa mở ra mọi cánh cửa thành công trong tương lai.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="py-16 text-center border-t border-white/10">
+            <p class="text-blue-300 font-bold tracking-[0.5em] uppercase mb-4 text-[10px]">Nguyễn Anh Minh</p>
+            <p class="text-[9px] text-slate-500 tracking-[0.3em] uppercase opacity-70 italic">Final Project • Grade 9 • 2025 - 2026</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // BẢO MẬT: CHẶN PHÍM TẮT XEM CODE NÂNG CAO
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I (DevTools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U (Source Code)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+S (Save Page)
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C (Inspect)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // CHẶN DRAG ẢNH
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.nodeName === 'IMG') {
+                e.preventDefault();
+            }
+        });
+
+        let hasStarted = false;
+
+        function startJourney() {
+            if (hasStarted) return;
+            hasStarted = true;
+
+            const entry = document.getElementById('entry-screen');
+            const loading = document.getElementById('loading-screen');
+            const main = document.getElementById('main-content');
+            const bar = document.getElementById('bar');
+            const percentText = document.getElementById('percent');
+
+            entry.style.opacity = '0';
+            
+            setTimeout(() => {
+                entry.style.display = 'none';
+                loading.style.display = 'flex';
+                
+                let width = 0;
+                const interval = setInterval(() => {
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        finishLoading();
+                    } else {
+                        width += Math.random() * 8; // Tốc độ tải nhanh hơn một chút cho web
+                        if(width > 100) width = 100;
+                        bar.style.width = width + '%';
+                        percentText.innerText = Math.floor(width) + '%';
+                    }
+                }, 40);
+
+            }, 800);
+
+            function finishLoading() {
+                setTimeout(() => {
+                    loading.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        main.style.display = 'block';
+                        setTimeout(() => {
+                            main.style.opacity = '1';
+                            AOS.init({ 
+                                duration: 1200, 
+                                once: true,
+                                offset: 80 
+                            });
+                        }, 50);
+                    }, 800);
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>
